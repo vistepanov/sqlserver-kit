@@ -1,10 +1,10 @@
 # SQL Server Management Studio add-ins
-Complete list of useful and must have add-ins for SQL Server Management Studio - **35** SSMS add-ins
+Complete list of useful and must have add-ins for SQL Server Management Studio - **37** SSMS add-ins
 
 | Name                                                  | Download page                 | Release Date | Support SSMS Version | Developer            | Free version | Price |
 |-------------------------------------------------------|-------------------------------|--------------|:---------------------|----------------------|--------------|------:|
-| [SSMSBoost](#ssmsboost)                               | [SSMSBoost]                   | 2018-08-10   | 2008-2017            | Solutions Crew GmbH  | Yes          |  $150 |
-| [SqlSmash](#SqlSmash)                                 | [SqlSmash]                    | 2017-06-10   | 2008-2017            | Smashing Jedis LLC   | Yes          |   $99 |
+| [SSMSBoost](#ssmsboost)                               | [SSMSBoost]                   | 2019-01-09   | 2008-2018            | Solutions Crew GmbH  | Yes          |  $150 |
+| [SqlSmash](#sqlsmash)                                 | [SqlSmash]                    | 2017-06-10   | 2008-2017            | Smashing Jedis LLC   | Yes          |   $99 |
 | [SQL Code Guard](#sql-code-guard)                     | [Red Gate SQL Code Guard]     | 2017-07-03   | 2016                 | Red Gate             | Yes          | No    |
 | [SQL Search](#sql-search)                             | [SQL Search]                  | 2017-02-27   | 2008-2017            | Red Gate             | Yes          | No    |
 | [Red Gate SQL Test](#red-gate-sql-test)               | [Red Gate SQL Test]           | 2017-03-21   | 2008-2017            | Red Gate             | No           |  $369 |
@@ -21,13 +21,13 @@ Complete list of useful and must have add-ins for SQL Server Management Studio -
 | [ApexSQL Source Control](#apexsql-source-control)     | [ApexSQL Source Control]      | 2017-10-12   | 2008-2017            | ApexSQL tools        | No           |  $299 |
 | [ApexSQL Unit Test](#apexsql-unit-test)               | [ApexSQL Unit Test]           | 2017-08-16   | 2008-2017            | ApexSQL tools        | Yes          |  $499 |
 | [Spotlight Developer](#spotlight-developer)           | [Spotlight Developer]         | 2016-02-04   | 2008-2014            | Spotlight Essentials | Yes          | No    |
-| [dbForge Source Control](#dbforge-source-control)     | [dbForge Source Control]      | 2017-09-30   | 2005-2017            | Devart               | No           |  $249 |
-| [dbForge Unit Test](#dbforge-unit-test)               | [dbForge Unit Test]           | 2017-09-30   | 2005-2017            | Devart               | No           |  $199 |
-| [dbForge Data Pump](#dbforge-data-pump)               | [dbForge Data Pump]           | 2017-09-30   | 2008-2016            | Devart               | No           |  $149 |
-| [dbForge Index Manager](#dbforge-index-manager)       | [dbForge Index Manager]       | 2017-09-30   | 2008-2016            | Devart               | No           |  $99  |
-| [dbForge Search](#dbforge-search)                     | [dbForge Search]              | 2017-09-30   | 2008-2017            | Devart               | Yes          | No    |
-| [dbForge Monitor](#dbforge-monitor)                   | [dbForge Monitor]             | 2017-09-30   | 2008-2016            | Devart               | Yes          | No    |
-| [dbForge SQL Complete](#dbforge-sql-complete)         | [dbForge SQL Complete]        | 2017-09-30   | 2000-2017            | Devart               | Yes          |  $149 |
+| [dbForge Source Control](#dbforge-source-control)     | [dbForge Source Control]      | 2018-12-21   | 2005-2018            | Devart               | No           |  $249 |
+| [dbForge Unit Test](#dbforge-unit-test)               | [dbForge Unit Test]           | 2018-12-21   | 2005-2018            | Devart               | No           |  $199 |
+| [dbForge Data Pump](#dbforge-data-pump)               | [dbForge Data Pump]           | 2018-12-21   | 2008-2018            | Devart               | No           |  $149 |
+| [dbForge Index Manager](#dbforge-index-manager)       | [dbForge Index Manager]       | 2018-12-21   | 2008-2018            | Devart               | No           |  $99  |
+| [dbForge Search](#dbforge-search)                     | [dbForge Search]              | 2018-12-21   | 2008-2018            | Devart               | Yes          | No    |
+| [dbForge Monitor](#dbforge-monitor)                   | [dbForge Monitor]             | 2018-12-21   | 2008-2018            | Devart               | Yes          | No    |
+| [dbForge SQL Complete](#dbforge-sql-complete)         | [dbForge SQL Complete]        | 2018-12-21   | 2000-2018            | Devart               | Yes          |  $149 |
 | [SoftTree SQL Assistant](#softtree-sql-assistant)     | [SoftTree SQL Assistant]      | 2016-03-18   | 2008-2014            | SoftTree             | No           |  $179 |
 | [SQL Enlight For SSMS](#sql-enlight-for-ssms)         | [SQL Enlight For SSMS]        | 2016-04-25   | 2008-2014            | UbitSoft             | No           |  $195 |
 | [SQL Hunting Dog](#sql-hunting-dog)                   | [SQL Hunting Dog]             | 2016-03-03   | 2008-2014            | Alex Maslyukov       | Yes          | No    |
@@ -37,14 +37,16 @@ Complete list of useful and must have add-ins for SQL Server Management Studio -
 | [SQL Server Diagnostics](#sql-server-diagnostics)     | [SQL Server Diagnostics]      | 2017-06-22   | 2016-2017            | Microsoft            | Yes          | No    |
 | [VersionSQL](#versionsql)                             | [VersionSQL]                  | 2017-02-16   | 2012-2017            | VersionSQL           | Yes          |  $149 |
 | [Spotlight Tuning Pack](#spotlight-tuning-pack)       | [Spotlight Tuning Pack]       | 2018-06-01   | 2012-2017            | Quest Software Inc   | Yes          |  $180 |
-| [Michel Max - SSMS Tools](#michel-max)                | [Michel Max - SSMS Tools]     | 2018-11-16   | 2012-2019            | Michel Max           | Yes          | No    |
+| [Michel Max - SSMS Tools](#michel-max)                | [Michel Max - SSMS Tools]     | 2018-11-16   | 2012-2018            | Michel Max           | Yes          | No    |
+| [SSMS Schema Folders](#ssms-schema-folders)           | [SSMS Schema Folders]         | 2018-10-06   | 2012-2018            | Nicholas Ross        | Yes          | No    |
+| [Statistics Reporter](#statistics-reporter)           | [Statistics Reporter]         | 2019-04-17   | 2014-2018            | Analytics Bar        | Yes          | No    |
 
 
 <a id="ssmsboost"></a>
 ## SSMSBoost
 Download page: [SSMSBoost]<br/>
-Release date: 2018-08-10<br/>
-Support Version: 2008-2017<br/>
+Release date: 2019-01-09<br/>
+Support Version: 2008-2018<br/>
 Developer: Solutions Crew GmbH<br/>
 Free version: Yes<br/>
 Price: $150
@@ -362,8 +364,8 @@ You also get a FREE System health Check, Performance Health Analysis and compreh
 <a id="dbforge-source-control"></a>
 ## dbForge Source Control
 Download page: [dbForge Source Control]<br/>
-Release date: 2017-09-30<br/>
-Support Version: 2005-2017<br/>
+Release date: 2018-12-21<br/>
+Support Version: 2005-2018<br/>
 Developer: Devart<br/>
 Free version: No<br/>
 Price: $249
@@ -375,8 +377,8 @@ The tool can link your databases to all popular source control systems, and deli
 <a id="dbforge-unit-test"></a>
 ## dbForge Unit Test
 Download page: [dbForge Unit Test]<br/>
-Release date: 2017-09-30<br/>
-Support Version: 2005-2016<br/>
+Release date: 2018-12-21<br/>
+Support Version: 2005-2018<br/>
 Developer: Devart<br/>
 Free version: No<br/>
 Price: $199
@@ -389,21 +391,21 @@ dbForge Unit Test for SQL Server functionality allows you to develop stable and 
 <a id="dbforge-data-pump"></a>
 ## dbForge Data Pump
 Download page: [dbForge Data Pump]<br/>
-Release date: 2017-09-30<br/>
-Support Version: 2005-2017<br/>
+Release date: 2018-12-21<br/>
+Support Version: 2008-2018<br/>
 Developer: Devart<br/>
 Free version: No<br/>
 Price: $149
 
-dbForge Data Pump for SQL Server is an SSMS add-in for filling SQL databases with external source data and migrating data between systems.
-The tool supports 10+ widely used data formats and includes a number of advanced options and templates for recurring scenarios.
+dbForge Data Pump is an SSMS add-in for filling SQL databases with external source data and migrating data between systems.
+The tool supports import and export from 10+ widely used data formats (Text, MS Excel, XML, CSV, JSON etc.) and includes a number of advanced options and templates for recurring scenarios. 
 
 
 <a id="dbforge-index-manager"></a>
 ## dbForge Index Manager
 Download page: [dbForge Index Manager]<br/>
-Release date: 2017-09-30<br/>
-Support Version: 2005-2017<br/>
+Release date: 2018-12-21<br/>
+Support Version: 2008-2018<br/>
 Developer: Devart<br/>
 Free version: No<br/>
 Price: $99
@@ -417,8 +419,8 @@ dbForge Index Manager for SQL Server will significantly boost SQL Server perform
 <a id="dbforge-search"></a>
 ## dbForge Search
 Download page: [dbForge Search]<br/>
-Release date: 2017-09-30<br/>
-Support Version: 2005-2017<br/>
+Release date: 2018-12-21<br/>
+Support Version: 2008-2018<br/>
 Developer: Devart<br/>
 Free version: Yes<br/>
 Price: No
@@ -431,8 +433,8 @@ With dbForge Object Search for SQL Server you no longer need to look through the
 <a id="dbforge-monitor"></a>
 ## dbForge Monitor
 Download page: [dbForge Monitor]<br/>
-Release date: 2017-04-20<br/>
-Support Version: 2008-2016<br/>
+Release date: 2018-12-21<br/>
+Support Version: 2008-2018<br/>
 Developer: Devart<br/>
 Free version: Yes<br/>
 Price: No
@@ -446,8 +448,8 @@ Price: No
 <a id="dbforge-sql-complete"></a>
 ## dbForge SQL Complete
 Download page: [dbForge SQL Complete]<br/>
-Release date: 2017-09-30<br/>
-Support Version: 2000-2016<br/>
+Release date: 2018-12-21<br/>
+Support Version: 2000-2018<br/>
 Developer: Devart<br/>
 Free version: Yes<br/>
 Price: $149
@@ -592,7 +594,7 @@ The analysis will indicate whether the Query Plan can be tuned to improve perfor
 ## Michel Max - SSMS Tools
 Download page: [Michel Max - SSMS Tools]<br/>
 Release date: 2018-11-16<br/>
-Support Version: 2012-2019<br/>
+Support Version: 2012-2018<br/>
 Developer: Michel Max<br/>
 Free version: Yes<br/>
 Price: No
@@ -620,6 +622,31 @@ Other versions:
  - https://sourceforge.net/projects/michelmaxssmstools2016/
  - https://sourceforge.net/projects/michelmaxssmstools2017/
  - https://sourceforge.net/projects/michelmaxssmstools2019/
+
+
+<a id="#ssms-schema-folders"></a>
+## SSMS Schema Folders
+Download page: [SSMS Schema Folders]<br/>
+Release date: 2018-10-06<br/>
+Support Version: 2012-2018<br/>
+Developer: Michel Max<br/>
+Free version: Yes<br/>
+Price: No
+
+This an extension for SQL Server Management Studio 2012, 2014, 2016 and 17.
+It groups sql objects in Object Explorer (tables, views, etc.) into schema folders.
+
+
+<a id="statistics-reporter"></a>
+## Statistics Reporter
+Download page: [Statistics Reporter]<br/>
+Release date: 2019-04-17<br/>
+Support Version: 2014-2018<br/>
+Developer: Analytics Bar<br/>
+Free version: Yes<br/>
+Price: No
+
+Statistics Reporter SSMS Extension is a SQL Server Management Studio Add-in for parsing SET STATISTICS IO, TIME ON into a beautiful report. 
 
 
 [SSMSBoost]:http://www.ssmsboost.com/
@@ -650,7 +677,7 @@ Other versions:
 [dbForge SQL Complete]:https://www.devart.com/dbforge/sql/sqlcomplete/
 [SoftTree SQL Assistant]:http://www.softtreetech.com/isql.htm
 [SQL Enlight for SSMS]:http://www.ubitsoft.com/products/sqlenlight-for-ssms/index.php
-[SQL Hunting Dog]:http://sql-hunting-dog.com/
+[SQL Hunting Dog]:http://www.sql-hunting-dog.com/
 [Poor Mans T-SQL Formatter]:http://architectshack.com/PoorMansTSqlFormatter.ashx
 [Tabs Studio]:https://tabsstudio.com
 [Workload Addin]:https://www.codeproject.com/Articles/1188027/Capture-of-a-Typical-SQL-Server-Database-Workload
@@ -658,6 +685,8 @@ Other versions:
 [VersionSQL]:https://www.versionsql.com/
 [Spotlight Tuning Pack]:https://www.spotlightcloud.io/spotlight-cloud-tuning-pack
 [Michel Max - SSMS Tools]:https://sourceforge.net/projects/michelmaxssmstools2017/
+[SSMS Schema Folders]:https://github.com/nicholas-ross/SSMS-Schema-Folders
+[Statistics Reporter]:https://analyticsbar.com/blog/statistics-reporter-ssms-extension/
 
 [SQL_Search Download]:https://download.red-gate.com/SQL_Search.exe
 [Apex SQL Search Download]:https://www.apexsql.com/zips/ApexSQLSearch.exe

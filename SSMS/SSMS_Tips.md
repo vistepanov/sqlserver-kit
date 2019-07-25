@@ -14,11 +14,13 @@ Most tips works for SSMS higher 2008 but some of them only works for SSMS 2016 a
  - [ ] Analyze Actual Execution Plan https://www.scarydba.com/2018/08/06/analyze-actual-execution-plan/
  - [ ] Compare Actual Execution Plans
  - [ ] [Database Upgrade using the Query Tuning Assistant wizard in SSMS 18](https://www.sqlshack.com/database-upgrade-using-the-query-tuning-assistant-wizard-in-ssms-18/)
+ - [ ] [Export Data From SSMS Query to Excel](https://blog.sqlauthority.com/2019/01/16/sql-server-export-data-from-ssms-query-to-excel/)
+ - [ ] [Starting SSMS with a specific connection and script file](http://dbamastery.com/tips/ssms-cmdline-utility/)
 
-Content:
+**Table of Content**:
 1. [Import and Export Settings](#1)
 2. [SSMS Shortcuts](#2)
-3. [Keyboard Shortcuts for Favorite Stored Procedures](#3)
+3. [Keyboard Shortcuts for Favorite Stored Procedures and Scripts](#3)
 4. [SSMS Scripting Option](#4)
 5. [Selecting a block of text using the ALT Key](#5)
 6. [Script Table and Column Names by Dragging from Object Explorer](#6)
@@ -52,10 +54,13 @@ Content:
 34. [Using Extended Events and Profiler in SSMS](#34)
 35. [Vulnerability Assessment in SSMS](#35)
 36. [Import Flat File to SQL Wizard](#36)
-37. [Reference](#reference)
+37. [AutoRecover in SSMS](#37)
+38. [View and query Power BI .pbix files in SSMS](#38)
+39. [Using SSMS to analyze Power BI with XMLA](#39)
+40. [Reference](#reference)
 
 
-Great thanks to:
+**Great thanks to**:
  - Kendra Little ([b](http://www.littlekendra.com/) | [t](https://twitter.com/Kendra_Little))
  - Slava Murygin ([b](http://slavasql.blogspot.ru/))
  - Mike Milligan ([b](http://www.bidn.com/Blogs/userid/43/author/mike-milligan))
@@ -78,13 +83,18 @@ Great thanks to:
  - Thomas LaRock ([b](https://thomaslarock.com/) | [t](https://twitter.com/SQLRockstar))
  - Jen Mccown ([b](http://www.midnightdba.com/Jen/author/jen/))
  - Louis Davidson ([b](https://www.red-gate.com/simple-talk/author/louis-davidson/) | [t](https://twitter.com/drsql))
+ - Solomon Rutzky ([b](https://sqlquantumleap.com) | [t](https://twitter.com/srutzky))
+ - Michelle Haarhues ([b](https://witsociety.wordpress.com/) | [t](https://twitter.com/mhaarhues))
+ - Christian Wade ([b](https://witsociety.wordpress.com/) | [t](https://twitter.com/_christianWade))
+ - Kellyn Pot’Vin-Gorman ([b](https://dbakevlar.com/) | [t](https://twitter.com/DBAKevlar))
+ - Kevin Feasel ([b](https://36chambers.wordpress.com) | [t](https://twitter.com/feaselkl))
 
 
 <a id="1"></a>
 ## Import and Export Settings
 `Tools > Options > Environment > Import and Export Settings`
 
-Default settings (if you need to compare with yours) you can find here: [SSMS settings files]
+Default settings (if you need to compare with yours) you can find here: [SSMS settings files](https://github.com/ktaranov/sqlserver-kit/tree/master/SSMS/SSMS_vssettings)
 
 You can configure so many settings in SSMS and then export it and use on all your computers.
 Below link provide detailed instruction and awesome Dark theme configuration: [Making SSMS Pretty: My Dark Theme](https://blogs.sentryone.com/aaronbertrand/making-ssms-pretty-my-dark-theme/)
@@ -110,57 +120,62 @@ More details here: [MANAGEMENT STUDIO SHORTCUT – CHANGE CONNECTION](http://www
 
 Most useful are:
 
-| Shortcut              | Description                            |
-|-----------------------|----------------------------------------|
-| `Ctrl + U`            | Change Selected Database               |
-| `Ctrl + R`            | Toggle Results Pane                    |
-| `Ctrl + Space`        | Activate Autocomplete                  |
-| `Ctrl + Shift + V`    | [Cycle through clipboard ring]         |
-| `Ctrl + ]`            | Navigate to matching parenthesis       |
-| `Ctrl + –`            | Navigate to last cursor location       |
-| `Ctrl + Shift + –`    | Navigate forward to cursor location    |
-| `Ctrl + K, Ctrl + C`  | Comments selected text                 |
-| `Ctrl + K, Ctrl + U`  | Uncomments selected text               |
-| `Ctrl + K, Ctrl + K`  | Toggle Bookmark                        |
-| `Ctrl + K, Ctrl + N`  | Go to Next Bookmark                    |
-| `Ctrl + L`            | Display Estimated Query Execution plan |
-| `Shift + Alt + Enter` | View Code Editor in Full Screen        |
-| `Ctrl + I`            | Quick Search                           |
-| `Ctrl + F4`           | Close the current MDI child window     |
-| `Ctrl + F5`           | Parse query  to check for errors       |
-| `Shift + F10`         | Simulate right mouse button            |
-| `Ctrl + Alt + T`      | Display Template Explorer              |
-| `Ctrl + Shift + M`    | Specify values for template parameters |
-| `Ctrl + Shift + R`    | Refresh local cache                    |
-| `Ctrl + Alt + S`      | Include Client Statistics              |
+| Shortcut                       | Description                            |
+|--------------------------------|----------------------------------------|
+| <kbd>Ctrl + U</kbd>            | Change Selected Database               |
+| <kbd>Ctrl + R</kbd>            | Toggle Results Pane                    |
+| <kbd>Ctrl + Space</kbd>        | Activate Autocomplete                  |
+| <kbd>Ctrl + Shift + V</kbd>    | [Cycle through clipboard ring]         |
+| <kbd>Ctrl + ]</kbd>            | Navigate to matching parenthesis       |
+| <kbd>Ctrl + –</kbd>            | Navigate to last cursor location       |
+| <kbd>Ctrl + Shift + –</kbd>    | Navigate forward to cursor location    |
+| <kbd>Ctrl + K, Ctrl + C</kbd>  | Comments selected text                 |
+| <kbd>Ctrl + K, Ctrl + U</kbd>  | Uncomments selected text               |
+| <kbd>Ctrl + K, Ctrl + K</kbd>  | Toggle Bookmark                        |
+| <kbd>Ctrl + K, Ctrl + N</kbd>  | Go to Next Bookmark                    |
+| <kbd>Ctrl + L</kbd>            | Display Estimated Query Execution plan |
+| <kbd>Shift + Alt + Enter</kbd> | View Code Editor in Full Screen        |
+| <kbd>Ctrl + I</kbd>            | Quick Search                           |
+| <kbd>Ctrl + F4</kbd>           | Close the current MDI child window     |
+| <kbd>Ctrl + F5</kbd>           | Parse query  to check for errors       |
+| <kbd>Shift + F10</kbd>         | Simulate right mouse button            |
+| <kbd>Ctrl + Alt + T</kbd>      | Display Template Explorer              |
+| <kbd>Ctrl + Shift + M</kbd>    | Specify values for template parameters |
+| <kbd>Ctrl + Shift + R</kbd>    | Refresh local cache                    |
+| <kbd>Ctrl + Alt + S</kbd>      | Include Client Statistics              |
 
 
 <a id="3"></a>
-## Keyboard Shortcuts for Favorite Stored Procedures
+## Keyboard Shortcuts for Favorite Stored Procedures and Scripts
+A query shortcut allows you to execute code simply by hitting <kbd>Ctrl</kbd> and a number key. Cool. But first, there are a few things to know about query shortcuts:
+
+1. The window in SSMS where you configure the query shortcuts has the text field for the shortcut labeled as **Stored Procedure**, which is misleading because you can specify a query. You can even specify multiple queries.
+2. Whatever you specify needs to be a single line: no newlines / CRLFs. Any text past the first return will be truncated.
+3. When using the keyboard query shortcuts, if nothing is highlighted then only the code in the shortcut is executed. But, if any T-SQL is highlighted when you execute the shortcut, then the highlighted code is executed after the code stored in the shortcut finishes. Adding a `RETURN;` at the end of the shortcut simply stops the processing after the code stored in the shortcut finishes. BUT, if anything is highlighted when you execute a query shortcut, it is still parsed, even if not executed. Hence, you can still get parse errors even with the `RETURN;` added at the end.
+
 `Tools > Options > Environment > Keyboard > Query Shortcuts`
 
 ![Keyboard Shortcuts for Favorite Stored Procedures](/SSMS/SSMS_Tips/keyboard_shortcuts_for_stored_procedures.png)
 
-3 Shortcuts can not be changed: `Alt + F1`, `Ctrl + 1` and `Ctrl + 2`.
-For another 9 shortcuts my recommendation awesome open source Brent Ozar teams procedures and with some limitations Adam Machanic `sp_WhoIsActive`:
+3 Shortcuts can not be changed: <kbd>Alt + F1</kbd> - [sp_help], <kbd>Ctrl + 1</kbd> - [sp_who] and <kbd>Ctrl + 2</kbd> - [sp_lock].
+For another 9 shortcuts my recommendation awesome open source Brent Ozar teams procedures and with some limitations in License usage Adam Machanic [sp_WhoIsActive]:
 
-| Query Shortcut | Stored Procedure     |
-|----------------|----------------------|
-| `Alt + F1`     | [sp_help]            |
-| `Ctrl + F1`    | [sp_WhoIsActive]     |
-| `Ctrl + 1`     | [sp_who]             |
-| `Ctrl + 2`     | [sp_lock]            |
-| `Ctrl + 3`     | [sp_Blitz]           |
-| `Ctrl + 4`     | [sp_BlitzCache]      |
-| `Ctrl + 5`     | [sp_BlitzWho]        |
-| `Ctrl + 6`     | [sp_BlitzQueryStore] |
-| `Ctrl + 7`     | [sp_BlitzFirst]      |
-| `Ctrl + 8`     | [usp_BulkUpload]     |
-| `Ctrl + 9`     | [sp_BlitzTrace]      |
-| `Ctrl + 0`     | [sp_foreachdb]       |
+| Query Shortcut          | Stored Procedure     |
+|-------------------------|----------------------|
+| <kbd>Alt + F1</kbd>     | [sp_help]            |
+| <kbd>Ctrl + F1</kbd>    | [sp_WhoIsActive]     |
+| <kbd>Ctrl + 1</kbd>     | [sp_who]             |
+| <kbd>Ctrl + 2</kbd>     | [sp_lock]            |
+| <kbd>Ctrl + 3</kbd>     | [sp_Blitz]           |
+| <kbd>Ctrl + 4</kbd>     | [sp_BlitzCache]      |
+| <kbd>Ctrl + 5</kbd>     | [sp_BlitzWho]        |
+| <kbd>Ctrl + 6</kbd>     | [sp_BlitzQueryStore] |
+| <kbd>Ctrl + 7</kbd>     | [sp_BlitzFirst]      |
+| <kbd>Ctrl + 8</kbd>     | [usp_BulkUpload]     |
+| <kbd>Ctrl + 9</kbd>     | [sp_BlitzTrace]      |
+| <kbd>Ctrl + 0</kbd>     | [sp_foreachdb]       |
 
 Also recommended:
- - [sp_BlitzRS]
  - [sp_DatabaseRestore]
  - [usp_BulkUpload]
 
@@ -181,6 +196,40 @@ Also recommended:
 [sp_foreachdb]:https://github.com/BrentOzarULTD/SQL-Server-First-Responder-Kit/blob/dev/sp_foreachdb.sql
 [usp_BulkUpload]:https://github.com/ktaranov/sqlserver-kit/blob/master/Stored_Procedure/usp_BulkUpload.sql
 
+### Some useful shortcuts for `sp_WhoIsActive from Kevin Feasel
+More details [here](https://36chambers.wordpress.com/2019/04/02/whoisactive-in-ssms/)
+
+What’s Going On shortcut?
+`EXEC sp_whoisactive @get_full_inner_text = 1, @get_outer_command = 1, @find_block_leaders = 1, @get_task_info = 2, @get_transaction_info = 1, @get_plans = 0, @output_column_list = '[session_id][login_name][dd%][CPU][reads][writes][wait_info][blocking_session_id][blocked_session_count][sql_text][sql_command][status][tempdb_%][%]', @sort_order = '[session_id]';`
+
+And here it is in a little bit nicer of a format so we can cover it:
+```sql
+EXEC sp_whoisactive
+    @get_full_inner_text = 1,
+    @get_outer_command = 1,
+    @find_block_leaders = 1,
+    @get_task_info = 2,
+    @get_transaction_info = 1,
+    @get_plans = 0,
+    @output_column_list = '[session_id][login_name][dd%][CPU][reads][writes][wait_info][blocking_session_id][blocked_session_count][sql_text][sql_command][status][tempdb_%][%]',
+    @sort_order = '[session_id]';
+```
+
+When you need to get execution plans, that’s when I break out Ctrl+4. Here is the one-liner:
+`EXEC sp_whoisactive @get_full_inner_text = 1, @get_outer_command = 1, @find_block_leaders = 1, @get_task_info = 2, @get_transaction_info = 1, @get_plans = 1, @output_column_list = '[session_id][login_name][dd%][CPU][reads][writes][wait_info][blocking_session_id][blocked_session_count][sql_text][sql_command][status][tempdb_%][%]', @sort_order = '[session_id]';`
+
+Formatted:
+```
+EXEC sp_whoisactive
+    @get_full_inner_text = 1,
+    @get_outer_command = 1,
+    @find_block_leaders = 1,
+    @get_task_info = 2,
+    @get_transaction_info = 1,
+    @get_plans = 1,
+    @output_column_list = '[session_id][login_name][dd%][CPU][reads][writes][wait_info][blocking_session_id][blocked_session_count][sql_text][sql_command][status][tempdb_%][%]',
+    @sort_order = '[session_id]';
+```
 
 <a id="4"></a>
 ## SSMS Scripting Option
@@ -190,13 +239,16 @@ Also recommended:
 
 ![Script any object with data](/SSMS/SSMS_Tips/ssms_script_objects.gif)
 
+
 ### The Default Scripting Option
 In the previous SQL Server Management Studio versions, the generated script will target the latest released SQL Server version.
-In SSMS 17.2, the `Match Script Settings to Source` has been added, with the default `True` value means that the generated script will target the source SQL Server instance’s version, edition, and engine type, where the `False` value will force the scripting to behave as the previous SSMS versions.
+Starting SSMS 17.2, the `Match Script Settings to Source` has been added, with the default `True` value means that the generated script will target the source SQL Server instance’s version, edition, and engine type, where the `False` value will force the scripting to behave as the previous SSMS versions.
 
 `Tools > Options > SQL Server Object Explore > Scripting > Version Options > Match Script Settings to Source`
 
 More details here: [What’s new in SQL Server Management Studio 17.2; Authentication methods, scripting options and more]
+
+![Script for SQL Server version](/SSMS/SSMS_Tips/ssms_script_objects_server_version.png)
 
 
 <a id="5"></a>
@@ -206,12 +258,16 @@ Also you can activate multi line mode with `Shift + Alt` keys and using keyboard
 
 More info and video about this awesome feature in this article: [My Favorite SSMS Shortcut (After Copy/Paste)](https://bertwagner.com/2017/11/28/multiline-edit-block-selection-alt-highlight-trick/) (by Bert Wagner)
 
+![SSMS Selecting a block of text using the ALT Key](/SSMS/SSMS_Tips/05_ALT+Arrow.gif)
+
+![SSMS Paste values into a template of commands](/SSMS/SSMS_Tips/05_ALT+PASTE.gif)
+
 
 <a id="6"></a>
 ## Script Table and Column Names by Dragging from Object Explorer
 Save keystrokes by dragging
 Drag the `Columns` folder for a table in to auto-type all column names in the table in a single line.
- - Warning: this doesn’t include [brackets] around the column names, so if your columns contain spaces or special characters at the beginning, this shortcut isn’t for you
+ - Warning: this doesn’t include square [brackets] around the column names for SSMS below 17 version, so if your columns contain spaces or special characters at the beginning, this shortcut isn’t for you
  - Dragging the table name over will auto-type the schema and table name, with brackets.
 
 
@@ -353,15 +409,17 @@ The splitter bar allows you to view one session with two panes. You can scroll i
 
 ![Splitting the Query Window](/SSMS/SSMS_Tips/splitting_the_query_window.gif)
 
-Also you can view some very useful features like annotations and Map mode, detailed instruction here: [SSMS Tip #1: Annotations and Map Mode for Vertical Scroll Bar]
+Also you can view some very useful features like annotations and Map mode, detailed instruction:
+1. [SSMS Tip #1: Annotations and Map Mode for Vertical Scroll Bar]
+2. [SQL Server Management Studio Scroll Bar Enhancements](https://witsociety.wordpress.com/2018/12/13/sql-server-management-studio-scroll-bar-enhancements/)
 
 Annotations show the relative position of certain aspects of the script, such as errors, changes, etc.
 There are four types of annotations, the first three of which are shown in their own columns on the left side of the scroll bar:
 
- - "Changes" are show in yellow (unsaved) and green (saved). These occupy the left column.
- - "Marks" are shown in maroon (Breakpoints) and black (Bookmarks). These occupy the left column.
- - "Errors" are shown in red. These occupy the right column.
- - "Caret Position" is a thin, blue line going horizontally across the scroll bar. This represents the line of the script that the cursor is on.
+ - **"Changes"** are show in yellow (unsaved) and green (saved). These occupy the left column.
+ - **"Marks"** are shown in maroon (Breakpoints) and black (Bookmarks). These occupy the left column.
+ - **"Errors"** are shown in red. These occupy the right column.
+ - **"Caret Position"** is a thin, blue line going horizontally across the scroll bar. This represents the line of the script that the cursor is on.
 
 
 <a id="17"></a>
@@ -737,6 +795,53 @@ For a user without specialized domain knowledge, importing data can often be a c
 PROSE analyzes data patterns in your input file to infer column names, types, delimiters, and more. This framework learns the structure of the file and does all of the hard work so our users don't have to.
 
 
+<a id="37"></a>
+## AutoRecover in SSMS
+With the default settings, you can lose up to 5 minutes of work on a sudden reboot.
+The recovered information will be kept for 7 days so there is some time to get your files. 
+These settings can be modified, changing how often auto recover happens and how long the information is retained.
+It depends on the criticality of things that you work on as to how often you would want AutoRecover to save your scripts.
+This feature can be turned off but it is not recommended.
+
+To change the settings, go to: `Tools -> Options -> Environment -> AutoRecover`.
+
+More details [here](https://witsociety.wordpress.com/2019/04/11/autorecover-in-ssms/)
+
+![AutoRecover in SSMS](/SSMS/SSMS_Tips/AutoRecover_in_SSMS.png)
+
+
+<a id="38"></a>
+## View and query Power BI .pbix files in SSMS
+All Power BI files end with `.pbix`. 
+You can make a copy of the file, (because DBA always like to work from copies vs. the originals) then rename the file from `.pbix` to `.zip`.
+You can then unzip the file and see the base components that make up a Power BI report and visuals:
+
+![Using SSMS with Power BI](/SSMS/SSMS_Tips/38_using_ssms_with_powerbi_01.jpg)
+
+While the Power BI report is open, you will see what is running using the `netstat -b -n` command from the command prompt as an administrator:
+
+You will notice that `pbidesktop.exe` is port `54125`, with multiple child threads.
+You will also notice there is an executable also sourced from the `pbidesktop.exe` process called `msmdsrv.exe`.
+That’s the executable for an Analysis Server. Your data model is being run by trimmed down Analysis Server in Power BI.
+If you have an Analysis Server port, you can connect to it with SSMS using the ID for Power BI Desktop.
+In our example above, the ID is `54125` and as the desktop is running on your PC, it would be your `localhost` for the server name.
+Open up SSMS and update the server type to Analysis Server and type in the following, using my Active Directory login to connect.
+
+You will connect to the trimmed down Analysis Server behind the PBI Desktop report you have running on your screen and have limited interactive options.
+
+![Using SSMS with PowerBI](/SSMS/SSMS_Tips/38_using_ssms_with_powerbi_02.jpg)
+
+More details [here](https://dbakevlar.com/2019/03/using-ssms-with-power-bi/)
+
+
+<a id="39"></a>
+## Using SSMS and Profiler to analyze PowerBI with XMLA
+SSMS can be used to, for example, view partitions generated by [incremental refresh](https://docs.microsoft.com/power-bi/service-premium-incremental-refresh). Version 18.0 RC1 or above is required.
+
+SQL Server Profiler can be used for tracing and debugging. SSMS 18.0 RC1 or above is required.
+
+More details [here](https://powerbi.microsoft.com/en-us/blog/power-bi-open-platform-connectivity-with-xmla-endpoints-public-preview/)
+
 <a id="reference"></a>
 Reference:
  - [Free Course: SQL Server Management Studio Shortcuts & Secrets](https://sqlworkbooks.com/course/sql-server-management-studio-shortcuts-secrets/) (by Kendra Little)
@@ -767,6 +872,7 @@ Reference:
  - [CTRL+R does not hide the Query Result window in SSMS]
  - [SSMS Tip #1: Annotations and Map Mode for Vertical Scroll Bar] (by Solomon Rutzky)
  - [SQL Vulnerability Assessment Available in SSMS] (by Thomas LaRock)
+ - [SSMS Tips and Tricks free ebook](http://ssmsbook.sqldownunder.com) (by SDU Insiders)
 
 [Cycle through clipboard ring]:http://www.ssmstipsandtricks.com/blog/2014/05/05/cycle-through-clipboard-ring/
 [SSMS Tips: Templates and Control+Shift+M]:http://littlekendra.com/2016/08/09/ssms-tips-templates-and-controlshiftm/

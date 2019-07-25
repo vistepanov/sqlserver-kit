@@ -1,5 +1,5 @@
 # Microsoft SQL Server Trace Flags
-Detailed list of all (documented and undocumented) Microsoft SQL Server trace flags (**593** trace flags).
+Detailed list of all (documented and undocumented) Microsoft SQL Server trace flags (**597** trace flags).
 
 ⚠ **REMEMBER: Be extremely careful with trace flags, test in your development environment first.
 And consult professionals first if you are the slightest uncertain about the effects of your changes.**
@@ -10,7 +10,7 @@ For more information on the applicable version, see the Microsoft Support articl
 ⚠ **Trace flag behavior may not be supported in future releases of SQL Server.**
 
 Headers:
- - [Unknown trace flags](#unknown-trace-flags")
+ - [Unknown trace flags](#unknown-trace-flags)
  - [What are Microsoft SQL Server Trace Flags?](#what-are-microsoft-sql-server-trace-flags)
  - [How do I turn Trace Flags on and off?](#how-do-i-turn-trace-flags-on-and-off)
  - [How do I know what Trace Flags are turned on at the moment?](#how-do-i-know-what-trace-flags-are-turned-on-at-the-moment)
@@ -71,6 +71,7 @@ A lowercase "t" is accepted by SQL Server, but this sets other internal trace fl
  - Slava Oks ([t](https://twitter.com/slava_oks/))
  - John Sterrett ([b](https://www.procuresql.com/))
  - Pavel Málek ([t](https://twitter.com/malekpav))
+ - Andrew Pruski ([b](https://dbafromthecold.com/) | [t](https://twitter.com/dbafromthecold))
 
 
 <a id="unknown-trace-flags"></a>
@@ -181,7 +182,7 @@ GO
 ## Recommended Trace Flags
 
  - [Trace Flag 272](#272) (for SQL Server 2012)
- - [Trace Flag 460](#460) (for SQL Server 2019, >= 2017 CU12)
+ - [Trace Flag 460](#460) (for SQL Server 2019, >= 2017 CU14, >= 2016 SP2 CU6)
  - [Trace Flag 1118](#1118) (for versions < SQL Server 2016)
  - [Trace Flag 3023](#3023) (for versions < SQL Server 2014)
  - [Trace Flag 3226](#3226) (for all versions)
@@ -189,15 +190,15 @@ GO
  - [Trace Flag 3449](#3449) (for versions SQL Server 2012 SP3 CU3 or later or SQL Server 2014 SP1 CU7 or later)
  - [Trace Flag 6534](#6534) (for versions SQL Server 2012, 2014, 2016) (if use [spatial data types](https://docs.microsoft.com/sql/relational-databases/spatial/spatial-data-sql-server))
  - [Trace Flag 7412](#7412) (for versions >= SQL Server 2016)
- - [Trace Flag 7745](#7745) (for versions >= SQL Server 2016)
- - [Trace Flag 7752](#7752) (for versions >= SQL Server 2016)
+ - [Trace Flag 7745](#7745) (for versions >= SQL Server 2016 and Query Store enabled)
+ - [Trace Flag 7752](#7752) (for versions >= SQL Server 2016 and Query Store enabled)
  - [Trace Flag 7806](#7806) (for SQL Server Express Edition)
 
 **Trace Flag 272** prevents identity gap after restarting SQL Server 2012 instance, critical for columns with identity and `tinyint` and `smallint` data types.
 (Demo for repeating this issue [here](https://github.com/ktaranov/sqlserver-kit/Errors/Identity_gap_sql_server_2012.sql))
 
 **Trace Flag 460** Replace error message [8152] with [2628] (`String or binary data would be truncated. The statement has been terminated.`).
-Description for [2628] mesage has useful information - which column had the truncation and which row.<br />
+Description for [2628] message has useful information - which column had the truncation and which row.<br />
 
 **Trace flag 1118** addresses contention that can exist on a particular type of page in a database, the SGAM page.
 This trace flag typically provides benefit for customers that make heavy use of the tempdb system database.
@@ -241,7 +242,7 @@ Use this trace flag if SQL Server is experiencing high number of [QDS_LOADDB](ht
 
 <a id="trace-flags-list"></a>
 ## Trace Flags List
-Summary: **593 trace flags**
+Summary: **597 trace flags**
 
 
 <a id="-1"></a>
@@ -350,8 +351,10 @@ Link: https://support.microsoft.com/help/926292
 #### Trace Flag: 174
 Function: Increases the SQL Server Database Engine plan cache bucket count from 40,009 to 160,001 on 64-bit systems.<br />
 **Note: Please ensure that you thoroughly test this option, before rolling it into a production environment.**<br />
-Link: https://support.microsoft.com/help/3026083/fix-sos-cachestore-spinlock-contention-on-ad-hoc-sql-server-plan-cache<br />
+Link: https://support.microsoft.com/help/3026083/<br />
 Link: [Docs Trace Flags]<br />
+Link: [SQL Server Plan Cache Limits]<br />
+Link: [KB2964518]<br />
 Scope: global only
 
 
@@ -590,6 +593,8 @@ Link: None
 
 <a id="460"></a>
 #### Trace Flag: 460
+**Note: Don’t leave this trace flag enabled on global scope for SQL Server 2017 CU12 and CU13.
+There’s at least one [bug](https://feedback.azure.com/forums/908035-sql-server/suggestions/36311467-traceflag-460-causing-truncation-errors-on-code-pa) on SQL Server 2017 CU13: table variables will throw errors saying their contents are being truncated even when no data is going into them.**<br />
 Function: Replace error message [8152] with [2628] (`String or binary data would be truncated. The statement has been terminated.`).
 Description for [2628] mesage has useful information - which column had the truncation and which row.<br />
 Link: [Docs Trace Flags]<br />
@@ -597,8 +602,11 @@ Link: https://www.procuresql.com/blog/2018/09/26/string-or-binary-data-get-trunc
 Link: https://feedback.azure.com/forums/908035-sql-server/suggestions/32908417-binary-or-string-data-would-be-truncated-error<br />
 Link: https://blogs.msdn.microsoft.com/sql_server_team/string-or-binary-data-would-be-truncated-replacing-the-infamous-error-8152/<br />
 Link: https://support.microsoft.com/help/4468101<br />
+Link: https://www.brentozar.com/archive/2019/03/how-to-fix-the-error-string-or-binary-data-would-be-truncated/<br />
+Link: https://feedback.azure.com/forums/908035-sql-server/suggestions/36311467-traceflag-460-causing-truncation-errors-on-code-pa<br />
+Link: https://support.microsoft.com/help/4490142<br />
 Scope: global or session<br />
-SQL Server Version: 2019, >= 2017 CU12<br />
+SQL Server Version: 2019, >= 2017 CU12, >= 2016 SP2 CU6<br />
 Demo: https://github.com/ktaranov/sqlserver-kit/blob/master/Scripts/Trace_Flag/Trace_Flag_460.sql
 
 
@@ -691,6 +699,7 @@ When you disable this process, the deleted record is not purged. Therefore, the 
 This behavior affects space consumption and the performance of scan operations. <br />
 Link: [KB920093]<br />
 Link: [Docs Trace Flags]<br />
+Link: [Let’s talk about trace flags]<br />
 Scope: global or session
 
 
@@ -842,6 +851,8 @@ Trace flag 834 improves performance by increasing the efficiency of the translat
 Link: [KB920093]<br />
 Link: https://support.microsoft.com/help/3210239<br />
 Link: [Docs Trace Flags]<br />
+Link: [Let’s talk about trace flags]<br />
+Link: [KB2964518]<br />
 Scope: global only
 
 
@@ -932,12 +943,13 @@ Link: None
 #### Trace Flag: 902
 Function: Bypasses execution of database upgrade script when installing a Cumulative Update or Service Pack.
 If you encounter an error during script upgrade mode, it is recommended to contact Microsoft SQL Customer Service and Support (CSS) for further guidance.<br />
-**Warning: This trace flag is meant for troubleshooting of failed updates during script upgrade mode, and it is not supported to run it continuously
-in a production environment. Database upgrade scripts needs to execute successfully for a complete install of Cumulative Updates and Service Packs.
+**Warning: This trace flag is meant for troubleshooting of failed updates during script upgrade mode, and it is not supported to run it continuously in a production environment.
+Database upgrade scripts needs to execute successfully for a complete install of Cumulative Updates and Service Packs.
 Not doing so can cause unexpected issues with your SQL Server instance.**<br />
 Link: https://support.microsoft.com/help/2163980<br />
 Link: [Docs Trace Flags]<br />
 Link: https://blogs.msdn.microsoft.com/luti/2017/05/17/sql-server-offline-after-applying-service-pack/<br />
+Link: https://blog.sqlauthority.com/2018/11/06/sql-server-script-level-upgrade-for-database-master-failed-because-upgrade-step-msdb110_upgrade-sql-encountered-error-926-state-1-severity-25/<br />
 Scope: global only
 
 
@@ -968,6 +980,7 @@ Link: https://blogs.msdn.microsoft.com/ialonso/2011/12/01/attempt-to-grow-all-fi
 Link: http://sql-articles.com/articles/general/day-6trace-flag-1117-auto-grow-equally-in-all-data-file<br />
 Link: http://www.ryanjadams.com/2017/05/trace-flag-1117-growth-contention/<br />
 Link: https://www.sqlskills.com/blogs/paul/misconceptions-around-tf-1118/<br/>
+Link: [KB2964518]<br />
 Scope: global only
 
 
@@ -986,6 +999,7 @@ Link: https://support.microsoft.com/help/328551<br />
 Link: [SQL Server 2016 : Getting tempdb a little more right]<br />
 Link: [Docs Trace Flags]<br />
 Link: https://chrisadkin.org/2015/04/14/well-known-and-not-so-well-known-sql-server-tuning-knobs-and-switches<br />
+Link: [KB2964518]<br />
 Scope: global only
 
 
@@ -1106,6 +1120,7 @@ Link: None
 #### Trace Flag: 1222
 Function: Returns the resources and types of locks that are participating in a deadlock and also the current command affected, in an XML format that does not comply with any XSD schema.<br />
 Link: [Docs Trace Flags]<br />
+Link: https://blogs.msdn.microsoft.com/bartd/2006/09/08/deadlock-troubleshooting-part-1/<br />
 Link: https://blog.sqlauthority.com/2017/01/09/sql-server-get-historical-deadlock-information-system-health-extended-events<br />
 Link: [Important Trace Flags That Every DBA Should Know]<br />
 Scope: global only
@@ -1157,6 +1172,7 @@ Function: Enables database lock partitioning. Fixes performance problem in scena
 **Note: Beginning with SQL Server 2012 SP3 and SQL Server 2014 SP1 this behavior is controlled by the engine and trace flag 1236 has no effect.**<br />
 Link: https://support.microsoft.com/help/2926217<br />
 Link: [Docs Trace Flags]<br />
+Link: [KB2964518]<br />
 Scope: global only
 
 
@@ -1464,6 +1480,7 @@ Link: http://sqlblog.com/blogs/paul_white/archive/2013/01/26/optimizing-t-sql-qu
 Function: Causes SQL Server to assume a fixed amount of memory is available during query optimization. It does not limit the memory SQL Server grants to execute the query.
 The memory configured for SQL Server will still be used by data cache, query execution and other consumers.<br />
 **Note: Please ensure that you thoroughly test this option, before rolling it into a production environment.**<br />
+Link: https://www.brentozar.com/archive/2018/08/how-trace-flag-2335-affects-memory-grants/<br />
 Link: https://support.microsoft.com/help/2413549<br />
 Link: [Docs Trace Flags]<br />
 Link: http://dba.stackexchange.com/questions/53726/difference-in-execution-plans-on-uat-and-prod-server<br />
@@ -1518,6 +1535,7 @@ Link: https://support.microsoft.com/help/2754171<br />
 Link: http://blogs.msdn.com/b/saponsqlserver/archive/2011/09/07/changes-to-automatic-update-statistics-in-sql-server-traceflag-2371.aspx<br />
 Link: https://blogs.msdn.microsoft.com/axinthefield/sql-server-trace-flag-2371-for-dynamics-ax/<br />
 Link: [Docs Trace Flags]<br />
+Link: [KB2964518]<br />
 Scope: global only
 
 
@@ -1568,6 +1586,7 @@ Also In SQL Server, if you want to see the information of last four statistics u
 In simple words, we can say that this trace flag provide us the historical information about statistics update.<br />
 Link: [SQL Server - estimates outside of the histogram - half-baked draft]<br />
 Link: http://www.sqlservergeeks.com/sql-server-trace-flag-2388/<br />
+Link: [Fun with SQL Server Plan Cache, Trace Flag 8666, and Trace Flag 2388]<br />
 Scope: session only
 
 
@@ -1657,6 +1676,15 @@ Function: SQL 10 - Parallel query execution strategy on partitioned tables. SQL 
 Link: https://social.msdn.microsoft.com/Forums/sqlserver/en-US/dc010af9-afa0-4c87-937c-4343b4e1119a/trace-flag-2440
 
 
+<a id="2451"></a>
+#### Trace Flag: 2451
+**Note: This trace flag applies to SQL Server 2019 preview CTP 2.4 and higher builds.**
+Function: Enables the equivalent of the last actual execution plan in [`sys.dm_exec_query_plan_stats`](https://docs.microsoft.com/en-us/sql/relational-databases/system-dynamic-management-views/sys-dm-exec-query-stats-transact-sql).<br />
+Link: [Docs Trace Flags]<br />
+SQL Server Version: >= 2019 CTP 2.4<br />
+Scope: global only
+
+
 <a id="2453"></a>
 #### Trace Flag: 2453
 Function: Allow a table variable to trigger recompile when enough number of rows are changed with may allow the query optimizer to choose a more efficient plan.<br />
@@ -1687,9 +1715,16 @@ Link: https://blogs.msdn.microsoft.com/psssql/2013/09/27/how-it-works-maximizing
 
 <a id="2467"></a>
 #### Trace Flag: 2467
-Function: “If target MAXDOP target is less than a single node can provide and if trace flag 2467 is enabled attempt to locate least loaded node”<br />
+Function: Enables an alternate parallel worker thread allocation policy, based on which node has the least allocated threads.
+For more information, see [Parallel Query Processing](https://docs.microsoft.com/en-us/sql/relational-databases/query-processing-architecture-guide#parallel-query-processing).
+Refer to [Configure the max worker threads Server Configuration Option](https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/configure-the-max-worker-threads-server-configuration-option) for information on configuring the max worker threads server option.
+**Note: Query degree of parallelism (DOP) has to fit into a single node for this alternate policy to be used, or the default thread allocation policy is used instead. Using this trace flag, it is not recommended to execute queries specifying a DOP over the number of schedulers in a single node, as this could interfere with queries specifying a DOP below or equal to the number of schedulers in a single node.
+Note: Please ensure that you thoroughly test this option, before rolling it into a production environment.**<br />
+Link: [Docs Trace Flags]<br />
 Link: https://blogs.msdn.microsoft.com/psssql/2013/09/27/how-it-works-maximizing-max-degree-of-parallelism-maxdop<br />
-Link: [SQL Server Parallel Query Placement Decision Logic]
+Link: https://erikdarlingdata.com/2019/06/thoughts-on-maxdop/<br />
+Link: [SQL Server Parallel Query Placement Decision Logic]<br />
+Scope: global only
 
 
 <a id="2468"></a>
@@ -1699,6 +1734,14 @@ Function: “Find the next node that can service the DOP request. Unlike full mo
 Starting from the last position, and moving to the next node, SQL Server checks for query placement opportunities.
 If a node can’t support the request SQL Server continues advancing nodes and searching.”<br />
 Link: [SQL Server Parallel Query Placement Decision Logic]
+
+
+<a id="2469"></a>
+#### Trace Flag: 2469
+Function: Enables alternate exchange for `INSERT INTO ... SELECT` into a partitioned columnstore index.<br />
+Link: [Docs Trace Flags]<br />
+Link: https://support.microsoft.com/help/3204769/<br />
+Scope: global or session or query
 
 
 <a id="2470"></a>
@@ -1768,27 +1811,18 @@ Function: SQL 7 SP2 - Facilitates capturing a Sqlservr.exe user-mode crash dump 
 Link: None
 
 
-<a id="2469"></a>
-#### Trace Flag: 2469
-Function: Enables alternate exchange for `INSERT INTO ... SELECT` into a partitioned columnstore index.<br />
-Link: [Docs Trace Flags]<br />
-Link: https://support.microsoft.com/help/3204769/<br />
-Scope: global or session or query
-
-
 <a id="2528"></a>
 #### Trace Flag: 2528
 Function: Disables parallel checking of objects by `DBCC CHECKDB`, `DBCC CHECKFILEGROUP`, and `DBCC CHECKTABLE`.
 By default, the degree of parallelism is automatically determined by the query processor.
 The maximum degree of parallelism is configured just like that of parallel queries.
-For more information, see [Configure the max degree of parallelism Server Configuration Option](https://msdn.microsoft.com/en-us/library/ms189094.aspx).
+For more information, see [Configure the max degree of parallelism Server Configuration Option](https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/configure-the-max-degree-of-parallelism-server-configuration-option).
 Parallel `DBCC` should typically be left enabled.
 For `DBCC CHECKDB`, the query processor reevaluates and automatically adjusts parallelism with each table or batch of tables checked.
 Sometimes, checking may start when the server is almost idle.
 An administrator who knows that the load will increase before checking is complete may want to manually decrease or disable parallelism.
 Disabling parallel checking of DBCC can cause `DBCC` to take much longer to complete and if `DBCC` is run with the `TABLOCK` feature enabled and parallelism set off, tables may be locked for longer periods of time.<br />
 Link: [Docs Trace Flags]<br />
-Link: https://technet.microsoft.com/en-us/library/ms189094.aspx<br />
 Link: http://www.sqlskills.com/blogs/paul/checkdb-from-every-angle-how-long-will-checkdb-take-to-run<br />
 Link: [Important Trace Flags That Every DBA Should Know]<br />
 Scope: global or session
@@ -1894,13 +1928,13 @@ Link: http://blogs.msdn.com/b/saponsqlserver/archive/2011/12/22/faster-dbcc-chec
 Link: https://support.microsoft.com/help/2634571<br />
 Link: https://support.microsoft.com/help/2732669<br />
 Link: [Docs Trace Flags]<br />
+Link: [KB2964518]<br />
 Scope: global only
 
 
 <a id="2550"></a>
 #### Trace Flag: 2550
-Function: Unknown, but related to controlling the contents of a
-memory dump<br />
+Function: Unknown, but related to controlling the contents of a memory dump<br />
 Link: [KB917825]
 
 
@@ -1908,34 +1942,31 @@ Link: [KB917825]
 #### Trace Flag: 2551
 Function: Produces a filtered memory dump<br />
 Link: [KB917825]<br />
-Link: https://connect.microsoft.com/SQLServer/feedback/details/477863/sql-server-is-terminating-because-of-fatal-exception-c0150014
+Link: https://connect.microsoft.com/SQLServer/feedback/details/477863/sql-server-is-terminating-because-of-fatal-exception-c0150014<br />
+Link: [Let’s talk about trace flags]
 
 
 <a id="2552"></a>
 #### Trace Flag: 2552
-Function: Unknown, but related to controlling the contents of a
-memory dump<br />
+Function: Unknown, but related to controlling the contents of a memory dump<br />
 Link: [KB917825]
 
 
 <a id="2553"></a>
 #### Trace Flag: 2553
-Function: Unknown, but related to controlling the contents of a
-memory dump<br />
+Function: Unknown, but related to controlling the contents of a memory dump<br />
 Link: [KB917825]
 
 
 <a id="2554"></a>
 #### Trace Flag: 2554
-Function: Unknown, but related to controlling the contents of a
-memory dump<br />
+Function: Unknown, but related to controlling the contents of a memory dump<br />
 Link: [KB917825]
 
 
 <a id="2555"></a>
 #### Trace Flag: 2555
-Function: Unknown, but related to controlling the contents of a
-memory dump<br />
+Function: Unknown, but related to controlling the contents of a memory dump<br />
 Link: [KB917825]
 
 
@@ -1948,8 +1979,7 @@ Link: [KB917825]
 
 <a id="2557"></a>
 #### Trace Flag: 2557
-Function: Unknown, but related to controlling the contents of a
-memory dump<br />
+Function: Unknown, but related to controlling the contents of a memory dump<br />
 Link: [KB917825]
 
 
@@ -1962,36 +1992,37 @@ Link: [Controlling SQL Server memory dumps]
 
 <a id="2559"></a>
 #### Trace Flag: 2559
-Function: Unknown, but related to controlling the contents of a
-memory dump<br />
+Function: Unknown, but related to controlling the contents of a memory dump<br />
 Link: [KB917825]
 
 
 <a id="2562"></a>
 #### Trace Flag: 2562
-Function: Runs the DBCC CHECKDB command in a single "batch" regardless of the number of indexes in the database.
-By default, the DBCC CHECKDB command tries to minimize tempdb resources by limiting the number of indexes or "facts" that it generates by using a "batches" concept.
+Function: Runs the `DBCC CHECKDB` command in a single "batch" regardless of the number of indexes in the database.
+By default, the `DBCC CHECKDB` command tries to minimize `tempdb` resources by limiting the number of indexes or "facts" that it generates by using a "batches" concept.
 This trace flag forces all processing into one batch.
-One effect of using this trace flag is that the space requirements for tempdb may increase.
-Tempdb may grow to as much as 5% or more of the user database that is being processed by the DBCC CHECKDB command.<br />
-**Note: Although this trace flag improve the performance of the DBCC CHECKDB commands which target usage of the PHYSICAL_ONLY option, some users may not see any improvement in performance.
+One effect of using this trace flag is that the space requirements for `tempdb` may increase.
+`tempdb` may grow to as much as 5% or more of the user database that is being processed by the `DBCC CHECKDB` command.<br />
+**Note: Although this trace flag improve the performance of the `DBCC CHECKDB` commands which target usage of the PHYSICAL_ONLY option, some users may not see any improvement in performance.
 While this trace flag improves disk I/O resources usage, the underlying performance of disk resources may limit the overall performance of the DBCC CHECKDB command.**<br />
 Link: http://blogs.msdn.com/b/saponsqlserver/archive/2011/12/22/faster-dbcc-checkdb-released-in-sql-2008-r2-sp1-traceflag-2562-amp-2549.aspx<br />
 Link: https://support.microsoft.com/help/2634571<br />
 Link: https://support.microsoft.com/help/2732669<br />
 Link: [Docs Trace Flags]<br />
+Link: [KB2964518]<br />
 Scope: global only
 
 
 <a id="2566"></a>
 #### Trace Flag: 2566
-Function: Runs the DBCC CHECKDB command without data purity check unless DATA_PURITY option is specified.<br />
+Function: Runs the `DBCC CHECKDB` command without data purity check unless DATA_PURITY option is specified.<br />
 **Note: Column-value integrity checks are enabled by default and do not require the DATA_PURITY option.
-For databases upgraded from earlier versions of SQL Server, column-value checks are not enabled by default until DBCC CHECKDB WITH DATA_PURITY has been run error free on the database at least once.
-After this, DBCC CHECKDB checks column-value integrity by default.**<br />
+For databases upgraded from earlier versions of SQL Server, column-value checks are not enabled by default until `DBCC CHECKDB WITH DATA_PURITY` has been run error free on the database at least once.
+After this, `DBCC CHECKDB` checks column-value integrity by default.**<br />
 Link: [Docs Trace Flags]<br />
 Link: https://sqlperformance.com/2012/11/io-subsystem/minimize-impact-of-checkdb<br />
-Link: https://support.microsoft.com/help/2888996/fix-data-purity-corruption-in-sys.sysbinobjs-table-in-master-database-when-you-log-on-to-sql-server-by-using-the-sa-account-and-then-run-dbcc-checkdb<br />
+Link: https://support.microsoft.com/help/2888996/<br />
+Link: [KB2964518]<br />
 Scope: global only
 
 
@@ -2006,17 +2037,24 @@ Scope: session only
 
 <a id="2701"></a>
 #### Trace Flag: 2701
-Function: SQL 6.5 - Sets the @@ERROR system function to 50000 for RAISERROR messages with severity levels of 10 or less. When disabled, sets the @@ERROR system function to 0 for RAISERROR messages with severity levels of 10 or less<br />
+Function: SQL 6.5 - Sets the `@@ERROR` system function to 50000 for `RAISERROR` messages with severity levels of 10 or less. When disabled, sets the @@ERROR system function to 0 for RAISERROR messages with severity levels of 10 or less<br />
 Link: None
 
 
 <a id="2861"></a>
 #### Trace Flag: 2861
+**Undocumented trace flag**<br />
+**TF2861 only exists in SQL Server 2000 SP3 and SP4, was removed before 2005 shipped, and if you’re using it now you’re definitely incorrect and should removed it from your startup parameters/application code that enables it.**
 Function: Keep zero cost plans in cache. Tip: Avoid Using Trace Flag 2861 to Cache Zero-Cost Query Plan<br />
+Link: http://www.seangallardy.com/trace-flag-2861-the-trace-flag-the-myth-the-legend/
+
+
+#### Trace Flag: 2880
+Function: Both 2880 and 2881 are related to a SQL 2000 hotfix introduced to solve problems where ad-hoc queries would cause the procedure cache to get too big<br />
 Link: None
 
 
-#### Trace Flag: 2880, 2881
+#### Trace Flag: 2881
 Function: Both 2880 and 2881 are related to a SQL 2000 hotfix introduced to solve problems where ad-hoc queries would cause the procedure cache to get too big<br />
 Link: None
 
@@ -2277,6 +2315,7 @@ backup transaction log, create database, add a file to a database, restore a tra
 Link: https://support.microsoft.com/help/3158396/<br />
 Link: https://blogs.msdn.microsoft.com/psssql/2017/06/29/sql-server-large-ram-and-db-checkpointing/<br />
 Link: [Hidden Performance & Manageability Improvements in SQL Server 2012 / 2014]<br />
+Link: [KB2964518]<br />
 Scope: global only
 
 
@@ -2569,6 +2608,39 @@ Link: https://support.microsoft.com/help/3145492/
 #### Trace Flag: 3940
 Function: According to Bob Ward’s PASS 2014 SQL Server IO talk, forces the Eager Write functionality to throttle at 1024 outstanding eager writes.<br />
 Link: None
+
+
+<a id="3979"></a>
+#### Trace Flag: 3979
+**Undocumented trace flag**<br />
+Function: **Request Fua Writes**.
+SQL Server opens database data and log files with FILE_FLAG_WRITE_THROUGH, mapping to O_DSYNC in the Host Extension, asking for Fua writes. 
+Linux Default: Trace flag considered **Off**
+Windows Default: Trace flag considered **On **
+**The trace flag does not apply to SQL Server on Linux SQL 2017 RTM thru CU5.  The behavior is assumed enabled prior to CU 6.
+** The trace flag does not apply to Windows.  On Windows it is always assumed to be enabled.**
+On Linux, you need a file system that provides DpuFua=1 enablement or you have confirmed your system is O_DIRECT safe.
+By enabling the trace flag you disable the batch flush requests from SQL Server and are trusting SQLPAL, HE and the I/O subsystem configuration to achieve durability.<br />
+Link: [SQL Server On Linux: Forced Unit Access (Fua) Internals]<br />
+Scope: global
+
+
+<a id="3982"></a>
+#### Trace Flag: 3982
+**Undocumented trace flag**<br />
+Function: **Avoid Fua Writes**.
+Forces SQL Server to open database data and log files without `FILE_FLAG_WRITE_THROUGH` and issue the `FlushFileBuffers` calls to complete transactions and checkpoint activities.
+Linux Default: Trace flag is considered **On**
+Windows Default: Trace flag is considered **Off**
+**Microsoft retains the policy that SQL Server should always be run on a system with stable media configurations.
+The trace flag is NOT supported on Windows.**
+[This article](https://support.microsoft.com/help/86903/) highlights these support boundaries.
+It was written by David Campbell, Bob Ward, Keith Elmore and I many years ago and the forced flush feature does not alter the intent: “SQL Server requires systems to support ‘ guaranteed delivery to stable media ’ as outlined under the Microsoft SQL Server Always-On Storage Solution Review program.
+For more information about the input and output requirements for the SQL Server database engine.
+When running on Linux kernels or file systems that do not support optimized Fua capabilities.
+The trace flag and forced flush behavior is intended to be a workaround for Linux installations until the SQL Server instance id deployed on a system providing optimized, Fua capabilities.<br />
+Link: [SQL Server On Linux: Forced Unit Access (Fua) Internals]<br />
+Scope: global
 
 
 <a id="4001"></a>
@@ -2930,6 +3002,8 @@ Link: https://support.microsoft.com/help/974006/<br />
 Link: https://sqlworkbooks.com/2017/04/selectively-enabletrace-flag-4199-and-query_optimizer_hotfixes-in-sql-server-2016/<br />
 Link: https://sqlworkbooks.com/2017/04/trace-flag-4199-no-per-session-override-if-you-enable-it-globally/<br />
 Link: http://www.sqlservergeeks.com/sql-server-2016-database-scoped-configuration-and-trace-flag-4199/<br />
+Link: [Let’s talk about trace flags]<br />
+Link: [KB2964518]<br />
 Scope: global or session or query
 
 
@@ -3040,6 +3114,7 @@ It is based on the 80 percentage of SQL Server Target Memory, and it allows for 
 Link: https://support.microsoft.com/help/3024815<br />
 Link: [Docs Trace Flags]<br />
 Link: http://blogs.msdn.com/b/sql_server_team/archive/2015/10/09/query-compile-big-gateway-policy-changes-in-sql-server.aspx<br />
+Link: [KB2964518]<br />
 Scope: global only
 
 
@@ -3077,6 +3152,7 @@ Function: Enables performance improvement of query operations with spatial data 
 The performance gain will vary, depending on the configuration, the types of queries, and the objects.<br />
 Link: [KB3107399]<br />
 Link: [Docs Trace Flags]<br />
+Link: [KB2964518]<br />
 Scope: global or session
 
 
@@ -3086,6 +3162,7 @@ Function: Enables performance improvement of query operations with spatial data 
 The performance gain will vary, depending on the configuration, the types of queries, and the objects.<br />
 Link: [KB3107399]<br />
 Link: [Docs Trace Flags]<br />
+Link: [KB2964518]<br />
 Scope: global or session
 
 
@@ -3097,6 +3174,7 @@ Link: https://support.microsoft.com/help/3054180<br />
 Link: [KB3107399]<br />
 Link: https://blogs.msdn.microsoft.com/bobsql/2016/06/03/sql-2016-it-just-runs-faster-native-spatial-implementations/<br />
 Link: [Docs Trace Flags]<br />
+Link: [KB2964518]<br />
 Scope: global or session
 
 
@@ -3207,6 +3285,7 @@ Link: https://support.microsoft.com/help/3170113<br />
 Link: https://www.brentozar.com/archive/2017/10/get-live-query-plans-sp_blitzwho/<br />
 Link: https://groupby.org/conference-session-abstracts/enhancements-that-will-make-your-sql-database-engine-roar-2016-sp1-edition/<br />
 Link: https://www.scarydba.com/2018/06/11/plan-metrics-without-the-plan-trace-flag-7412/<br />
+Link: [KB2964518]<br />
 Scope: global only
 
 
@@ -3218,9 +3297,17 @@ Link: https://support.microsoft.com/help/3088480
 
 <a id="7471"></a>
 #### Trace Flag: 7471
-Function: Running multiple UPDATE STATISTICS for different statistics on a single table concurrently<br />
+Function: Running multiple `UPDATE STATISTICS` for different statistics on a single table concurrently.
+Trace Flag 7471 changes the locking behavior of update statistics command such that SQL Server engine no longer acquires `X LOCK` on UPDSTATS resource on the table.
+Rather the engine acquires an (update) `U LOCK` on each individual statistics object being updated which doesn't block other parallel threads on the same table running on different statistics.
+This behavior improves the overall concurrency of the update statistics job run executing in parallel and improves its performance.<br />
+** TF 7471 can increase the possibility of deadlock especially when creation of new statistics and updating of existing statistics are executed simultaneously.
+So the recommended best practice is to use TF 7471 only as a part of maintenance when update statistics jobs are run in parallel and should be turned off otherwise.**
 Link: https://support.microsoft.com/help/3156157<br />
-Link: http://sqlperformance.com/2016/05/sql-performance/parallel-rebuilds
+Link: http://sqlperformance.com/2016/05/sql-performance/parallel-rebuilds<br />
+Link: [KB2964518]<br />
+Link: https://blogs.msdn.microsoft.com/sql_server_team/boosting-update-statistics-performance-with-sql-2014-sp1cu6/<br />
+Scope: global only
 
 
 <a id="7497"></a>
@@ -3307,6 +3394,7 @@ Function: Enables asynchronous load of Query Store.<br />
 Note: Use this trace flag if SQL Server is experiencing high number of QDS_LOADDB waits related to Query Store synchronous load (default behavior).<br />
 Link: [Docs Trace Flags]<br />
 Link: [Query Store Trace Flags]<br />
+Link: [Let’s talk about trace flags]<br />
 Scope: global only
 
 
@@ -3522,6 +3610,8 @@ Link: https://support.microsoft.com/help/917035<br />
 Function: Alters cache limit settings<br />
 **Warning: Trace flag 8032 can cause poor performance if large caches make less memory available for other memory consumers, such as the buffer pool.**<br />
 Link: [Docs Trace Flags]<br />
+Link: [SQL Server Plan Cache Limits]<br />
+Link: [KB2964518]<br />
 Scope: global only
 
 
@@ -3557,6 +3647,7 @@ Link: http://blogs.msdn.com/b/psssql/archive/2012/12/20/how-it-works-cmemthread-
 Link: [Docs Trace Flags]<br />
 Link: http://blogs.msdn.com/b/psssql/archive/2011/09/01/sql-server-2008-2008-r2-on-newer-machines-with-more-than-8-cpus-presented-per-numa-node-may-need-trace-flag-8048.aspx<br />
 Link: [Hidden Performance & Manageability Improvements in SQL Server 2012 / 2014]<br />
+Link: [KB2964518]<br />
 Related to: [8015](#8015), [9024](#9024)<br />
 Scope: global only
 
@@ -3576,8 +3667,13 @@ Link: https://blogs.msdn.microsoft.com/psssql/2009/11/02/the-sql-server-wait-typ
 
 <a id="8075"></a>
 #### Trace Flag: 8075
-Function: Enables a fix (after applying the appropriate CU) for x64 VAS exhaustion.<br />
-Link: https://support.microsoft.com/help/3074434/
+Function: Enables a fix (after applying the appropriate CU) for x64 VAS exhaustion.
+Assume that you install the 64-bit version of Microsoft SQL Server 2014, 2016 or 2017 on a computer that's running Windows Server 2012 or an earlier version of Windows operating system.
+When SQL Server uses up all the user-mode virtual address space, you may receive an out of memory error message in the SQL Server error log.
+Additionally, queries take a long time to finish execution, and the `SOS_MEMORY_TOPLEVELBLOCKALLOCATOR` wait occurs.<br />
+Link: https://support.microsoft.com/help/3074434/<br />
+Link: [KB2964518]<br />
+Scope: global only
 
 
 <a id="8079"></a>
@@ -3592,6 +3688,7 @@ Link: [KB972767]<br />
 Link: [Docs Trace Flags]<br />
 Link: https://blogs.msdn.microsoft.com/sqlreleaseservices/sql-server-2012-service-pack-4-sp4-released/<br />
 Link: [Hidden Performance & Manageability Improvements in SQL Server 2012 / 2014]<br />
+Link: [KB2964518]<br />
 Scope: global only
 
 
@@ -3816,14 +3913,17 @@ Link: [Yet another X-Ray for the QP]<br />
 Link: https://blogfabiano.com/2012/07/03/statistics-used-in-a-cached-query-plan<br />
 Link: http://dataidol.com/davebally/2014/04/12/reasons-why-your-plans-suck-no-56536<br />
 Link: https://www.mssqltips.com/sqlservertip/4269/how-to-identify-useful-sql-server-table-statistics/<br />
-Link: http://sql-sasquatch.blogspot.com/2018/06/harvesting-sql-server-trace-flag-8666.htmlhttp://sql-sasquatch.blogspot.com/2018/06/harvesting-sql-server-trace-flag-8666.html<br />
-Scope: session only
+Link: http://sql-sasquatch.blogspot.com/2018/06/harvesting-sql-server-trace-flag-8666.html<br />
+Link: https://sql-sasquatch.blogspot.com/2018/12/fun-with-sql-server-plan-cache-trace.html<br />
+Link: [Fun with SQL Server Plan Cache, Trace Flag 8666, and Trace Flag 2388]<br />
+Scope: global or session
 
 
 <a id="8671"></a>
 #### Trace Flag: 8671
 **Undocumented trace flag**<br />
-Function: According to Dima, disables the logic that prunes the memo and prevents the optimization process from stopping due to “Good Enough Plan found”. Can significantly increase the amount of time, CPU, and memory used in the compilation process<br />
+Function: According to Dimitriy Pilugin, disables the logic that prunes the memo and prevents the optimization process from stopping due to “Good Enough Plan found”.
+Can significantly increase the amount of time, CPU, and memory used in the compilation process<br />
 Link: http://www.queryprocessor.ru/optimizer_unleashed_2
 
 
@@ -4094,6 +4194,7 @@ Function: Converts a global log pool memory object into NUMA node partitioned me
 **Note: Beginning with SQL Server 2012 SP3 and SQL Server 2014 SP1 this behavior is controlled by the engine and trace flag 9024 has no effect.**<br />
 Link: https://support.microsoft.com/help/2809338<br />
 Link: [Docs Trace Flags]<br />
+Link: [KB2964518]<br />
 Scope: global only<br />
 Related to: [8048](#8048)
 
@@ -4392,7 +4493,7 @@ Function: Disables batch mode for sort operator. SQL Server 2016 introduces a ne
 Link: https://support.microsoft.com/help/3172787<br />
 Link: [Docs Trace Flags]<br />
 Link: [Niko Neugebauer Columnstore Indexes – part 86]<br />
-Scope: global only
+Scope: global or session or query
 
 
 <a id="9348"></a>
@@ -4434,7 +4535,8 @@ set statistics xml, time off;
 #### Trace Flag: 9358
 Function: Disable batch mode sort operations in a complex parallel query. For example, this flag could apply if the query contains merge join operations.<br />
 Link: [Niko Neugebauer Columnstore Indexes – part 86]<br />
-Link: https://support.microsoft.com/help/3171555
+Link: https://support.microsoft.com/help/3171555<br />
+Scope: global or session or query
 
 
 <a id="9384"></a>
@@ -4451,7 +4553,7 @@ Function: Enables dynamic memory grant for batch mode operators. If a query does
 If the dynamic memory grant trace flag is enabled, a batch mode operator may ask for additional memory and avoid spilling to tempdb if additional memory is available.<br />
 Link: [Niko Neugebauer Columnstore Indexes – part 86]<br />
 Link: [Docs Trace Flags]<br />
-Scope: global or session
+Scope: global or session or query
 
 
 <a id="9390"></a>
@@ -4621,6 +4723,7 @@ Link: https://sqlserverscotsman.wordpress.com/2016/11/28/a-guide-on-forcing-the-
 Link: [Docs Trace Flags]<br />
 Link: [KB2801413]<br />
 Link: http://www.sqlservergeeks.com/sql-server-2014-trace-flags-9481/<br />
+Link: https://sqlperformance.com/2019/01/sql-performance/compatibility-levels-and-cardinality-estimation-primer
 Scope: global or session or query
 
 
@@ -4718,6 +4821,13 @@ Link: [Docs Trace Flags]<br />
 Link: https://www.mssqltips.com/sqlservertip/4537/sql-server-2016-availability-group-automatic-seeding/<br />
 Link: https://msdn.microsoft.com/en-us/library/mt735149.aspx<br />
 Link: [Tune compression for availability group]<br />
+Scope: global or session
+
+
+<a id="9571"></a>
+#### Trace Flag: 9571
+Function: Disables Availability Groups Auto seeding to the default database path.<br />
+Link: https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/automatic-seeding-secondary-replicas<br />
 Scope: global or session
 
 
@@ -4844,7 +4954,8 @@ In SQL Server 2016, when a columnstore index is reorganized, there is new functi
 into larger compressed rowgroups, as well as recompressing any rowgroups that have a large number of deleted rows.<br />
 **Note: Trace flag 10204 does not apply to column store indexes which are created on memory-optimized tables.**<br />
 Link: [Docs Trace Flags]<br />
-Scope: global or session
+Link: [Niko Neugebauer Columnstore Indexes – part 86]<br />
+Scope: global or session or query
 
 
 <a id="10207"></a>
@@ -4987,3 +5098,8 @@ Scope: ?
 [KB169960]:https://web.archive.org/web/20150111103047/http://support.microsoft.com:80/kb/169960
 [2628]:https://docs.microsoft.com/en-us/sql/relational-databases/errors-events/database-engine-events-and-errors?view=sql-server-2017#errors-2000-to-2999
 [8152]:https://docs.microsoft.com/en-us/sql/relational-databases/errors-events/database-engine-events-and-errors?view=sql-server-2017#errors-8000-to-8999
+[Fun with SQL Server Plan Cache, Trace Flag 8666, and Trace Flag 2388]:http://sql-sasquatch.blogspot.com/2018/12/fun-with-sql-server-plan-cache-trace_6.html
+[Let’s talk about trace flags]:https://blogs.msdn.microsoft.com/sql_server_team/lets-talk-about-trace-flags/
+[SQL Server Plan Cache Limits]:https://www.sqlskills.com/blogs/erin/sql-server-plan-cache-limits/
+[KB2964518]:https://support.microsoft.com/help/2964518
+[SQL Server On Linux: Forced Unit Access (Fua) Internals]:http://bobsql.com/sql-server-on-linux-forced-unit-access-fua-internals/
